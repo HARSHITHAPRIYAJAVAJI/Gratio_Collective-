@@ -10,19 +10,19 @@ const AntiqueSection: React.FC = () => {
       title: "PRE-LOVED YOU CAN TRUST"
     },
     {
-      image: "https://images.unsplash.com/photo-1611652022419-a9419f74343d?w=300&h=200&fit=crop&crop=center",
-      title: "NEGOTIATE YOUR PRICE"
+      image: "https://images.unsplash.com/photo-1558769132-cb1aea458c5e?w=300&h=200&fit=crop&crop=center&auto=format&q=75",
+      title: "AUTHENTICITY GUARANTEED"
     },
     {
-      image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=300&h=200&fit=crop&crop=center",
+      image: "https://images.unsplash.com/photo-1573408301185-9146fe634ad0?w=300&h=200&fit=crop&crop=center&auto=format&q=75",
       title: "SELL EFFORTLESSLY"
     },
     {
-      image: "https://images.unsplash.com/photo-1594736797933-d0301ba5aa37?w=300&h=200&fit=crop&crop=center",
+      image: "https://images.unsplash.com/photo-1594736797933-d0301ba5aa37?w=300&h=200&fit=crop&crop=center&auto=format&q=75",
       title: "DEALS UP TO 70% OFF RETAIL"
     },
     {
-      image: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=300&h=200&fit=crop&crop=center",
+      image: "https://images.unsplash.com/photo-1547949003-9792a18a2601?w=300&h=200&fit=crop&crop=center&auto=format&q=75",
       title: "COMMUNITY EDITS"
     }
   ];
@@ -36,7 +36,7 @@ const AntiqueSection: React.FC = () => {
       originalPrice: "$1,450",
       price: "$1,280",
       likes: 17,
-      image: "https://cdn-images.farfetch-contents.com/13/27/38/32/13273832_54473592_1000.jpg",
+      image: "/images/shoe.webp",
       badge: "WE LOVE"
     },
     {
@@ -46,7 +46,7 @@ const AntiqueSection: React.FC = () => {
       originalPrice: "$2,750",
       price: "$2,320",
       likes: 98,
-      image: "https://www.mytheresa.com/image/1094/1238/100/2a/P00839961.jpg",
+      image: "/images/chane.webp",
       badge: "WE LOVE"
     },
     {
@@ -56,7 +56,7 @@ const AntiqueSection: React.FC = () => {
       originalPrice: "$2,150",
       price: "$1,750",
       likes: 4,
-      image: "https://www.theluxurypop.com/cdn/shop/files/IMG_8782-Photoroom.jpg?v=1786010331&width=1200",
+      image: "/images/herm.webp",
       badge: "WE LOVE",
       trusted: true
     },
@@ -67,7 +67,7 @@ const AntiqueSection: React.FC = () => {
       originalPrice: "$4,400",
       price: "$3,850",
       likes: 94,
-      image: "https://assets.christiandior.com/is/image/diorprod/M0455CBAAM900_SBG_E03-1?$r9x10_raw$&crop=0,0,4000,5000&wid=1024&hei=1107&scale=0.5535&bfc=on&qlt=80",
+      image: "/images/guc.webp",
       badge: "WE LOVE"
     },
     {
@@ -77,7 +77,7 @@ const AntiqueSection: React.FC = () => {
       originalPrice: "$2,350",
       price: "$1,890",
       likes: 15,
-      image: "https://retag.in/cdn/shop/files/0L3A5637.jpg?v=1768906292",
+      image: "/images/ysl.webp",
       badge: "WE LOVE",
       expert: true
     }

@@ -9,7 +9,7 @@ const Footer: React.FC = () => {
         <div className="flex flex-col items-center justify-center mb-10 pb-8 border-b border-gray-800 text-center">
           <Link to="/" className="inline-block bg-white px-5 py-2.5 rounded-xl shadow-md hover:opacity-95 transition-opacity">
             <img
-              src="/images/l.png"
+              src="/images/l.webp"
               alt="Gratio Collective"
               className="h-12 sm:h-14 w-auto object-contain"
             />

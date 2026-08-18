@@ -10,7 +10,7 @@ const CategoryCarousel: React.FC = () => {
       id: 1,
       title: "Women's Collection",
       subtitle: "Discover luxury fashion for women",
-      image: "/images/h.jpeg",
+      image: "/images/h.webp",
       link: "/women",
       bgColor: "bg-rose-100"
     },
@@ -18,7 +18,7 @@ const CategoryCarousel: React.FC = () => {
       id: 2,
       title: "Men's Collection",
       subtitle: "Premium menswear and accessories",
-      image: "/images/hero1.jpeg",
+      image: "/images/hero1.webp",
       link: "/men",
       bgColor: "bg-blue-100"
     },
@@ -26,7 +26,7 @@ const CategoryCarousel: React.FC = () => {
       id: 3,
       title: "Children's Style",
       subtitle: "Adorable fashion for little ones",
-      image: "https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&h=500&fit=crop&crop=center",
+      image: "https://images.unsplash.com/photo-1503919005314-30d93d07d823?w=800&h=500&fit=crop&crop=center&auto=format&q=75",
       link: "/children",
       bgColor: "bg-yellow-100"
     },
@@ -34,7 +34,7 @@ const CategoryCarousel: React.FC = () => {
       id: 4,
       title: "Luxury Bags",
       subtitle: "Designer handbags and accessories",
-      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=500&fit=crop&crop=center",
+      image: "https://images.unsplash.com/photo-1586023492125-27b2c045efd7?w=800&h=500&fit=crop&crop=center&auto=format&q=75",
       link: "/bags",
       bgColor: "bg-purple-100"
     },
@@ -42,7 +42,7 @@ const CategoryCarousel: React.FC = () => {
       id: 5,
       title: "Premium Jewelry",
       subtitle: "Exquisite jewelry and timepieces",
-      image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&h=500&fit=crop&crop=center",
+      image: "https://images.unsplash.com/photo-1617038260897-41a1f14a8ca0?w=800&h=500&fit=crop&crop=center&auto=format&q=75",
       link: "/jewelry",
       bgColor: "bg-amber-100"
     }

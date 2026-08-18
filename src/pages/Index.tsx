@@ -110,7 +110,7 @@ const Index: React.FC = () => {
               {/* Logo */}
               <Link to="/" className="flex items-center hover:opacity-90 transition-opacity flex-shrink-0">
                 <img 
-                  src="/images/l.png" 
+                  src="/images/l.webp" 
                   alt="Gratio Collective" 
                   className="h-10 sm:h-12 w-auto object-contain" 
                 />
@@ -277,7 +277,7 @@ const Index: React.FC = () => {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b">
-                <img src="/images/l.png" alt="Gratio Collective" className="h-8 w-auto object-contain" />
+                <img src="/images/l.webp" alt="Gratio Collective" className="h-8 w-auto object-contain" />
                 <button onClick={() => setShowMobileMenu(false)} aria-label="Close menu">
                   <X className="h-6 w-6 text-black" />
                 </button>

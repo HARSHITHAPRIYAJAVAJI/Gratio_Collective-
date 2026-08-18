@@ -331,7 +331,7 @@ const Children: React.FC = () => {
             <div className="flex items-center space-x-2">
               <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
                 <img 
-                  src="/images/l.png" 
+                  src="/images/l.webp" 
                   alt="Gratio Collective" 
                   className="h-10 sm:h-12 w-auto object-contain" 
                 />
