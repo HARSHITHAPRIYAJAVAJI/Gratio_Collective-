@@ -4,8 +4,9 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { ArrowLeft, Upload, Camera } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Upload, Camera } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 const Sellitem: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -26,15 +27,7 @@ const Sellitem: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white font-inter">
-      {/* Header */}
-      <div className="border-b border-gray-200 py-4">
-        <div className="max-w-4xl mx-auto px-4 flex items-center">
-          <Link to="/" className="mr-4">
-            <ArrowLeft className="h-5 w-5" />
-          </Link>
-          <h1 className="text-2xl font-playfair font-semibold">Sell an Item</h1>
-        </div>
-      </div>
+      <Navbar showBack backTo="/" />
 
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
@@ -194,6 +187,7 @@ const Sellitem: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

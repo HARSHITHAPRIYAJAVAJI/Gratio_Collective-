@@ -26,6 +26,7 @@ const Sellitem = lazy(() => import("./pages/SellItem"));
 const SignIn = lazy(() => import("./pages/SignIn"));
 const Women = lazy(() => import("./pages/Women"));
 const Vintage = lazy(() => import("./pages/Vintage"));
+const Cart = lazy(() => import("./pages/Cart"));
 const CategoryCarousel = lazy(() => import("./components/CategoryCarousel"));
 
 const queryClient = new QueryClient({
@@ -52,6 +53,7 @@ const App = () => (
         <Suspense fallback={<PageLoader />}>
           <Routes>
             <Route path="/" element={<Index />} />
+            <Route path="/cart" element={<Cart />} />
             <Route path="/sell" element={<Sellitem />} />
             <Route path="/signin" element={<SignIn />} />
             <Route path="/favorites" element={<Favorites />} />

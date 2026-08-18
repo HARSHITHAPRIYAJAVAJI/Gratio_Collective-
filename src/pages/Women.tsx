@@ -1,4 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
@@ -178,6 +180,7 @@ const Women: React.FC = () => {
   const [selectedSubcategory, setSelectedSubcategory] = useState<string | null>(null);
   const [selectedConditions, setSelectedConditions] = useState<string[]>([]);
   const [selectedSizes, setSelectedSizes] = useState<string[]>([]);
+  const [selectedBrands, setSelectedBrands] = useState<string[]>([]);
   const [sortBy, setSortBy] = useState<string>("newest");
   const [showFilters, setShowFilters] = useState<boolean>(false);
   const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
@@ -219,9 +222,9 @@ const Women: React.FC = () => {
     setSearchParams(newParams);
   };
 
-  const toggleCondition = (cond: string) => {
+  const toggleCondition = (condition: string) => {
     setSelectedConditions(prev => 
-      prev.includes(cond) ? prev.filter(c => c !== cond) : [...prev, cond]
+      prev.includes(condition) ? prev.filter(c => c !== condition) : [...prev, condition]
     );
   };
 
@@ -231,11 +234,18 @@ const Women: React.FC = () => {
     );
   };
 
+  const toggleBrand = (brand: string) => {
+    setSelectedBrands(prev => 
+      prev.includes(brand) ? prev.filter(b => b !== brand) : [...prev, brand]
+    );
+  };
+
   const clearAllFilters = () => {
     setSelectedCategory("All");
     setSelectedSubcategory(null);
     setSelectedConditions([]);
     setSelectedSizes([]);
+    setSelectedBrands([]);
     setSearchParams(new URLSearchParams());
   };
 
@@ -269,6 +279,11 @@ const Women: React.FC = () => {
       result = result.filter(p => selectedSizes.includes(p.size));
     }
 
+    // Filter by Brand
+    if (selectedBrands.length > 0) {
+      result = result.filter(p => selectedBrands.includes(p.brand));
+    }
+
     // Sort
     if (sortBy === "price-low") {
       result.sort((a, b) => {
@@ -285,10 +300,10 @@ const Women: React.FC = () => {
     }
 
     return result;
-  }, [selectedCategory, selectedSubcategory, selectedConditions, selectedSizes, sortBy]);
+  }, [selectedCategory, selectedSubcategory, selectedConditions, selectedSizes, selectedBrands, sortBy]);
 
   const activeCategoryObj = categories.find(c => c.name.toLowerCase() === selectedCategory.toLowerCase());
-  const activeFiltersCount = selectedConditions.length + selectedSizes.length + (selectedCategory !== "All" ? 1 : 0) + (selectedSubcategory ? 1 : 0);
+  const activeFiltersCount = selectedConditions.length + selectedSizes.length + selectedBrands.length + (selectedCategory !== "All" ? 1 : 0) + (selectedSubcategory ? 1 : 0);
 
   if (selectedProduct) {
     const product = mockProducts.find(p => p.id === selectedProduct);
@@ -305,93 +320,39 @@ const Women: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-white font-inter">
-      {/* Top Banner */}
-      <div className="bg-yellow-300 text-center py-2 w-full">
-        <p className="text-xs sm:text-sm font-medium text-black">Get 10% off with code WELCOME10*</p>
-      </div>
-
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50 w-full">
-        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-3">
-              <Link 
-                to="/" 
-                className="flex items-center space-x-1.5 text-xs sm:text-sm font-medium text-black hover:text-gray-600 bg-gray-50 hover:bg-gray-100 px-3 py-1.5 rounded-full transition-colors"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Home</span>
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-                <img 
-                  src="/images/l.webp" 
-                  alt="Gratio Collective" 
-                  className="h-10 sm:h-12 w-auto object-contain" 
-                />
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              <Link to="/favorites" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Favorites">
-                <Heart className="h-5 w-5 text-black cursor-pointer" />
-                {favoritesCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
-                    {favoritesCount}
-                  </Badge>
-                )}
-              </Link>
-              <Link to="/profile" className="p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Profile">
-                <User className="h-5 w-5 text-black cursor-pointer" />
-              </Link>
-              <Link to="/cart" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Cart">
-                <ShoppingCart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
-                  0
-                </Badge>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar showBack backTo="/" />
 
       {/* Main Container */}
-      <main className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-6 sm:py-8">
+      <main className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 py-4 sm:py-6">
         {/* Page Header */}
-        <div className="mb-6">
-          <div className="flex items-center gap-2 text-xs text-gray-500 uppercase tracking-widest mb-1.5">
-            <Sparkles className="h-3.5 w-3.5 text-yellow-500" />
-            <span>Luxury Women's Department</span>
-          </div>
-          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-playfair font-bold text-black tracking-tight">
+        <div className="mb-3 sm:mb-4">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-1">
+            <h1 className="text-lg sm:text-xl lg:text-2xl font-playfair font-bold text-black tracking-tight">
               Women's Collection
             </h1>
-            <p className="text-xs sm:text-sm text-gray-500 font-medium">
+            <p className="text-xs text-gray-500 font-medium">
               Showing <span className="text-black font-bold">{filteredProducts.length}</span> curated items
             </p>
           </div>
         </div>
 
         {/* Horizontal Category Navigation Bar (Pills) */}
-        <div className="mb-6 border-b border-gray-100 pb-5">
-          <div className="flex items-center space-x-2 sm:space-x-3 overflow-x-auto scrollbar-hide py-1">
+        <div className="mb-4 border-b border-gray-100 pb-3">
+          <div className="flex items-center space-x-1.5 sm:space-x-2 overflow-x-auto scrollbar-hide py-0.5">
             {categories.map((cat) => {
               const isActive = selectedCategory.toLowerCase() === cat.name.toLowerCase();
               return (
                 <button
                   key={cat.name}
                   onClick={() => handleCategorySelect(cat.name)}
-                  className={`px-4 py-2 rounded-full text-xs sm:text-sm font-medium whitespace-nowrap transition-all duration-200 flex items-center space-x-1.5 ${
+                  className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all duration-200 flex items-center space-x-1.5 ${
                     isActive 
-                      ? "bg-black text-white shadow-sm scale-100" 
+                      ? "bg-black text-white shadow-2xs scale-100" 
                       : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:text-black"
                   }`}
                 >
                   <span>{cat.name}</span>
-                  <span className={`text-[11px] px-1.5 py-0.2 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-white text-gray-500"}`}>
+                  <span className={`text-[10px] px-1.5 py-0.2 rounded-full ${isActive ? "bg-white/20 text-white" : "bg-white text-gray-500"}`}>
                     {cat.count}
                   </span>
                 </button>
@@ -401,13 +362,13 @@ const Women: React.FC = () => {
 
           {/* Subcategory Sub-pills (if active category has subcategories) */}
           {activeCategoryObj && activeCategoryObj.subcategories.length > 0 && (
-            <div className="flex items-center space-x-2 overflow-x-auto scrollbar-hide mt-3 pt-2">
-              <span className="text-xs font-semibold text-gray-400 uppercase tracking-wider mr-1 flex-shrink-0">
+            <div className="flex items-center space-x-1.5 overflow-x-auto scrollbar-hide mt-2 pt-1.5">
+              <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider mr-1 flex-shrink-0">
                 Explore {activeCategoryObj.name}:
               </span>
               <button
                 onClick={() => handleSubcategorySelect(null)}
-                className={`px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-colors ${
+                className={`px-2.5 py-0.5 rounded-md text-[11px] font-medium whitespace-nowrap transition-colors ${
                   !selectedSubcategory 
                     ? "bg-neutral-800 text-white" 
                     : "bg-gray-50 text-gray-600 hover:bg-gray-100"
@@ -421,7 +382,7 @@ const Women: React.FC = () => {
                   <button
                     key={sub}
                     onClick={() => handleSubcategorySelect(isSubActive ? null : sub)}
-                    className={`px-3 py-1 rounded-md text-xs font-medium whitespace-nowrap transition-colors ${
+                    className={`px-2.5 py-0.5 rounded-md text-[11px] font-medium whitespace-nowrap transition-colors ${
                       isSubActive 
                         ? "bg-neutral-800 text-white" 
                         : "bg-gray-50 text-gray-600 hover:bg-gray-100 hover:text-black"
@@ -467,6 +428,17 @@ const Women: React.FC = () => {
               </span>
             ))}
 
+            {selectedBrands.map(brand => (
+              <span 
+                key={brand} 
+                onClick={() => toggleBrand(brand)}
+                className="bg-gray-100 text-gray-800 text-xs px-2.5 py-1 rounded-full flex items-center space-x-1 cursor-pointer hover:bg-gray-200 transition-colors"
+              >
+                <span>{brand}</span>
+                <X className="h-3 w-3 text-gray-500" />
+              </span>
+            ))}
+
             {selectedSizes.map(size => (
               <span 
                 key={size} 
@@ -505,26 +477,26 @@ const Women: React.FC = () => {
 
         {/* Expandable Filter Panel */}
         {showFilters && (
-          <div className="bg-gray-50/80 border border-gray-200 rounded-2xl p-5 mb-8 transition-all animate-in fade-in duration-200">
-            <div className="flex justify-between items-center mb-4">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-black">Refine Selection</h3>
+          <div className="bg-gray-50/90 border border-gray-200 rounded-xl p-3.5 sm:p-4 mb-6 transition-all animate-in fade-in duration-200">
+            <div className="flex justify-between items-center mb-3">
+              <h3 className="text-xs font-bold uppercase tracking-wider text-black">Refine Selection</h3>
               <button onClick={() => setShowFilters(false)} className="text-gray-400 hover:text-black">
-                <X className="h-4 w-4" />
+                <X className="h-3.5 w-3.5" />
               </button>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
               {/* Condition Filter */}
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2.5">Item Condition</h4>
-                <div className="flex flex-wrap gap-2">
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Item Condition</h4>
+                <div className="flex flex-wrap gap-1.5 sm:gap-2">
                   {["New", "Pre-owned", "Very Good"].map(cond => {
                     const isChecked = selectedConditions.includes(cond);
                     return (
                       <button
                         key={cond}
                         onClick={() => toggleCondition(cond)}
-                        className={`px-3 py-1.5 rounded-lg text-xs font-medium border transition-colors flex items-center space-x-1.5 ${
+                        className={`px-2.5 py-1 rounded-md text-xs font-medium border transition-colors flex items-center space-x-1 ${
                           isChecked 
                             ? "bg-black text-white border-black" 
                             : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
@@ -538,17 +510,41 @@ const Women: React.FC = () => {
                 </div>
               </div>
 
+              {/* Designers Filter */}
+              <div>
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Designers</h4>
+                <div className="flex flex-wrap gap-1.5">
+                  {["Chanel", "Christian Louboutin", "Hermès", "Gucci", "Saint Laurent", "Prada"].map(brand => {
+                    const isChecked = selectedBrands.includes(brand);
+                    return (
+                      <button
+                        key={brand}
+                        onClick={() => toggleBrand(brand)}
+                        className={`px-2.5 py-1 rounded-md text-xs font-medium border transition-colors flex items-center space-x-1 ${
+                          isChecked 
+                            ? "bg-black text-white border-black" 
+                            : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
+                        }`}
+                      >
+                        {isChecked && <Check className="h-3 w-3" />}
+                        <span>{brand}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
               {/* Size Filter */}
               <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2.5">Sizes</h4>
-                <div className="flex flex-wrap gap-1.5">
+                <h4 className="text-[11px] font-semibold uppercase tracking-wider text-gray-500 mb-2">Sizes</h4>
+                <div className="flex flex-wrap gap-1">
                   {["XS", "S", "M", "L", "XL", "36", "37", "38", "32cm"].map(size => {
                     const isChecked = selectedSizes.includes(size);
                     return (
                       <button
                         key={size}
                         onClick={() => toggleSize(size)}
-                        className={`min-w-[36px] h-8 px-2 rounded-md text-xs font-medium border transition-colors ${
+                        className={`min-w-[30px] h-7 px-1.5 rounded text-xs font-medium border transition-colors ${
                           isChecked 
                             ? "bg-black text-white border-black font-semibold" 
                             : "bg-white text-gray-700 border-gray-300 hover:bg-gray-100"
@@ -558,16 +554,6 @@ const Women: React.FC = () => {
                       </button>
                     );
                   })}
-                </div>
-              </div>
-
-              {/* Quick perks */}
-              <div>
-                <h4 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-2.5">Buyer Assurance</h4>
-                <div className="space-y-1.5 text-xs text-gray-600">
-                  <p className="flex items-center">🛡️ 100% Authenticity Verified</p>
-                  <p className="flex items-center">📦 Direct Insured Shipping</p>
-                  <p className="flex items-center">🔄 14-Day Buyer Return Protection</p>
                 </div>
               </div>
             </div>
@@ -584,7 +570,7 @@ const Women: React.FC = () => {
             </Button>
           </div>
         ) : (
-          <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5 sm:gap-4">
             {filteredProducts.map((product) => {
               const isFav = isFavorite(product.id);
               return (
@@ -594,7 +580,7 @@ const Women: React.FC = () => {
                   onClick={() => setSelectedProduct(product.id)}
                 >
                   {/* Image Card */}
-                  <div className="relative overflow-hidden rounded-xl mb-3 aspect-[3/4] bg-[#f7f7f8] flex items-center justify-center p-3">
+                  <div className="relative overflow-hidden rounded-lg mb-2 aspect-square bg-[#f7f7f8] flex items-center justify-center p-2.5">
                     <img
                       src={product.images[0]}
                       alt={product.name}
@@ -602,49 +588,49 @@ const Women: React.FC = () => {
                     />
 
                     {/* Category Badge */}
-                    <div className="absolute top-3 left-3 z-10">
-                      <span className="bg-white/95 text-black font-semibold text-[10px] tracking-wider uppercase px-2 py-1 rounded shadow-xs">
+                    <div className="absolute top-2 left-2 z-10">
+                      <span className="bg-white/95 text-black font-semibold text-[9px] tracking-wider uppercase px-1.5 py-0.5 rounded shadow-2xs">
                         {product.category}
                       </span>
                     </div>
 
                     {/* Favorite Button */}
                     <button
-                      className="absolute top-3 right-3 p-2 bg-white/90 hover:bg-white rounded-full shadow-xs hover:shadow-md transition-all z-10"
+                      className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-white rounded-full shadow-2xs hover:shadow-xs transition-all z-10"
                       onClick={(e) => handleToggleFavorite(e, product)}
                       aria-label="Add to favorites"
                     >
-                      <Heart className={`h-4 w-4 transition-colors ${isFav ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}`} />
+                      <Heart className={`h-3.5 w-3.5 transition-colors ${isFav ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}`} />
                     </button>
 
                     {/* Condition Tag */}
-                    <div className="absolute bottom-3 left-3 z-10">
-                      <span className="bg-neutral-900/80 text-white text-[10px] font-medium px-2 py-0.5 rounded-md backdrop-blur-xs">
+                    <div className="absolute bottom-2 left-2 z-10">
+                      <span className="bg-neutral-900/80 text-white text-[9px] font-medium px-1.5 py-0.5 rounded backdrop-blur-xs">
                         {product.condition}
                       </span>
                     </div>
                   </div>
 
                   {/* Product Info */}
-                  <div className="space-y-1 flex-1 flex flex-col justify-between">
+                  <div className="space-y-0.5 flex-1 flex flex-col justify-between">
                     <div>
-                      <p className="text-[11px] font-bold text-gray-400 uppercase tracking-wider">{product.brand}</p>
-                      <h3 className="font-medium text-sm text-black line-clamp-1 group-hover:underline transition-all">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">{product.brand}</p>
+                      <h3 className="font-medium text-xs sm:text-sm text-black line-clamp-1 group-hover:underline transition-all">
                         {product.name}
                       </h3>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-[11px] text-gray-500">
                         Size: {product.size}
                       </p>
                     </div>
 
-                    <div className="pt-1 flex items-center justify-between">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-bold text-sm text-red-600">{product.price}</span>
+                    <div className="pt-0.5 flex items-center justify-between">
+                      <div className="flex items-center space-x-1.5">
+                        <span className="font-bold text-xs sm:text-sm text-red-600">{product.price}</span>
                         {product.originalPrice && (
-                          <span className="text-xs text-gray-400 line-through">{product.originalPrice}</span>
+                          <span className="text-[10px] text-gray-400 line-through">{product.originalPrice}</span>
                         )}
                       </div>
-                      <span className="text-[10px] text-gray-500 flex items-center">
+                      <span className="text-[9px] text-gray-500 flex items-center">
                         📦 Direct
                       </span>
                     </div>
@@ -655,6 +641,7 @@ const Women: React.FC = () => {
           </div>
         )}
       </main>
+      <Footer />
     </div>
   );
 };

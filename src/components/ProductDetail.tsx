@@ -19,6 +19,9 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Link, useNavigate } from "react-router-dom";
 import { useFavorites } from "@/utils/favorites";
+import { useCart } from "@/utils/cart";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 
 // Comprehensive pool of luxury items used for dynamic randomization
 const luxuryItemPool = [
@@ -198,6 +201,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   onSelectProduct 
 }) => {
   const { isFavorite, toggleFavorite, count: favoritesCount } = useFavorites();
+  const { addToCart } = useCart();
   const [activeProduct, setActiveProduct] = useState(initialProduct);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [selectedSize, setSelectedSize] = useState(initialProduct.size || "M");
@@ -251,16 +255,9 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
   };
 
   const handleAddToCart = () => {
-    try {
-      const cart = JSON.parse(localStorage.getItem("cart") || "[]");
-      cart.push({ ...activeProduct, quantity, size: selectedSize });
-      localStorage.setItem("cart", JSON.stringify(cart));
-      window.dispatchEvent(new Event("storage"));
-      setAddedToCartToast(true);
-      setTimeout(() => setAddedToCartToast(false), 3000);
-    } catch (err) {
-      console.error("Cart error:", err);
-    }
+    addToCart(activeProduct, quantity, selectedSize);
+    setAddedToCartToast(true);
+    setTimeout(() => setAddedToCartToast(false), 3500);
   };
 
   const handleShare = () => {
@@ -291,70 +288,19 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
 
   return (
     <div className="min-h-screen bg-[#fafafa] font-inter text-neutral-900 pb-20">
-      {/* Top Banner */}
-      <div className="bg-yellow-300 text-center py-2 px-4 w-full">
-        <p className="text-xs sm:text-sm font-medium text-black tracking-wide">
-          ✨ Complimentary Insured Express Delivery on all luxury orders with code <span className="font-bold">WELCOME10</span>
-        </p>
-      </div>
-
-      {/* Navigation Bar */}
-      <nav className="bg-white shadow-xs border-b border-gray-100 sticky top-0 z-50 w-full">
-        <div className="w-full px-4 sm:px-6 lg:px-8 xl:px-10">
-          <div className="flex justify-between items-center h-16">
-            {/* Back Button */}
-            <div className="flex items-center space-x-2">
-              <button 
-                onClick={handleBackClick}
-                className="flex items-center space-x-1.5 text-xs sm:text-sm font-semibold text-black hover:text-gray-600 bg-gray-100 hover:bg-gray-200 px-3.5 py-1.5 rounded-full transition-colors cursor-pointer"
-                title="Back to collection"
-              >
-                <ArrowLeft className="h-4 w-4" />
-                <span>Back</span>
-              </button>
-            </div>
-
-            {/* Brand Title */}
-            <div className="flex items-center space-x-2">
-              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-                <img 
-                  src="/images/l.webp" 
-                  alt="Gratio Collective" 
-                  className="h-10 sm:h-12 w-auto object-contain" 
-                />
-              </Link>
-            </div>
-
-            {/* Header Right Actions */}
-            <div className="flex items-center space-x-3 sm:space-x-4">
-              <Link to="/favorites" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Favorites">
-                <Heart className="h-5 w-5 text-black cursor-pointer" />
-                {favoritesCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0 font-bold">
-                    {favoritesCount}
-                  </Badge>
-                )}
-              </Link>
-              <Link to="/profile" className="p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Profile">
-                <span className="sr-only">Profile</span>
-                <div className="h-5 w-5 text-black flex items-center justify-center font-bold text-xs">👤</div>
-              </Link>
-              <Link to="/cart" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Cart">
-                <ShoppingCart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
-                  0
-                </Badge>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar showBack backTo="/" />
 
       {/* Toast Notification */}
       {addedToCartToast && (
-        <div className="fixed top-20 right-6 z-50 bg-black text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-2.5 animate-in fade-in slide-in-from-top-4 duration-300">
-          <Check className="h-4 w-4 text-green-400" />
+        <div className="fixed top-20 right-6 z-50 bg-black text-white px-5 py-3 rounded-xl shadow-2xl flex items-center gap-3 animate-in fade-in slide-in-from-top-4 duration-300">
+          <Check className="h-4 w-4 text-green-400 flex-shrink-0" />
           <span className="text-xs sm:text-sm font-medium">Added to your shopping bag!</span>
+          <Link
+            to="/cart"
+            className="bg-white text-black hover:bg-gray-100 text-xs font-bold px-3 py-1.5 rounded-lg transition-colors ml-2"
+          >
+            View Bag
+          </Link>
         </div>
       )}
 
@@ -646,17 +592,17 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           </div>
 
           {/* Recommendations Grid */}
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5 sm:gap-4">
             {recommendedProducts.map((item) => {
               const isRecFav = isFavorite(item.id);
               return (
                 <div
                   key={item.id}
                   onClick={() => handleRecommendationClick(item)}
-                  className="group cursor-pointer flex flex-col bg-white p-3 rounded-2xl border border-gray-100 shadow-2xs hover:shadow-md transition-all duration-300"
+                  className="group cursor-pointer flex flex-col bg-white p-2.5 rounded-xl border border-gray-100 shadow-2xs hover:shadow-md transition-all duration-300"
                 >
                   {/* Image Container */}
-                  <div className="relative aspect-[3/4] bg-[#f7f7f8] rounded-xl overflow-hidden flex items-center justify-center p-3 mb-3">
+                  <div className="relative aspect-square bg-[#f7f7f8] rounded-lg overflow-hidden flex items-center justify-center p-2 mb-2">
                     <img
                       src={item.images[0]}
                       alt={item.name}
@@ -664,8 +610,8 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                     />
 
                     {/* Condition Tag */}
-                    <div className="absolute bottom-2.5 left-2.5 z-10">
-                      <span className="bg-neutral-900/80 text-white text-[10px] font-medium px-2 py-0.5 rounded-md backdrop-blur-xs">
+                    <div className="absolute bottom-2 left-2 z-10">
+                      <span className="bg-neutral-900/80 text-white text-[9px] font-medium px-1.5 py-0.5 rounded backdrop-blur-xs">
                         {item.condition}
                       </span>
                     </div>
@@ -676,36 +622,36 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
                         e.stopPropagation();
                         toggleFavorite(item);
                       }}
-                      className="absolute top-2.5 right-2.5 p-2 bg-white/90 hover:bg-white rounded-full shadow-xs hover:shadow-md transition-all z-10 cursor-pointer"
+                      className="absolute top-2 right-2 p-1.5 bg-white/90 hover:bg-white rounded-full shadow-2xs hover:shadow-xs transition-all z-10 cursor-pointer"
                       title={isRecFav ? "Remove from favorites" : "Add to favorites"}
                     >
-                      <Heart className={`h-3.5 w-3.5 transition-colors ${isRecFav ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}`} />
+                      <Heart className={`h-3 w-3 transition-colors ${isRecFav ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}`} />
                     </button>
                   </div>
 
                   {/* Product Info */}
-                  <div className="flex-1 flex flex-col justify-between space-y-1 px-1">
+                  <div className="flex-1 flex flex-col justify-between space-y-0.5 px-0.5">
                     <div>
-                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                      <p className="text-[10px] font-bold text-gray-400 uppercase tracking-wider">
                         {item.brand}
                       </p>
-                      <h3 className="text-xs sm:text-sm font-medium text-neutral-900 line-clamp-2 group-hover:text-black transition-colors leading-snug">
+                      <h3 className="text-xs sm:text-sm font-medium text-neutral-900 line-clamp-1 group-hover:text-black transition-colors leading-snug">
                         {item.name}
                       </h3>
                     </div>
 
-                    <div className="flex items-baseline justify-between pt-1">
-                      <div className="flex items-center gap-1.5">
-                        <span className="text-sm font-bold text-neutral-900 font-inter">
+                    <div className="flex items-baseline justify-between pt-0.5">
+                      <div className="flex items-center gap-1">
+                        <span className="text-xs sm:text-sm font-bold text-neutral-900 font-inter">
                           {item.price}
                         </span>
                         {item.originalPrice && (
-                          <span className="text-xs text-gray-400 line-through">
+                          <span className="text-[10px] text-gray-400 line-through">
                             {item.originalPrice}
                           </span>
                         )}
                       </div>
-                      <span className="text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded">
+                      <span className="text-[9px] font-semibold text-emerald-700 bg-emerald-50 px-1 py-0.5 rounded">
                         Available
                       </span>
                     </div>
@@ -716,6 +662,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           </div>
         </section>
       </main>
+      <Footer />
     </div>
   );
 };

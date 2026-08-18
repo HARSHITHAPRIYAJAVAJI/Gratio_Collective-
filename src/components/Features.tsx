@@ -66,22 +66,22 @@ const Features: React.FC = () => {
       <div className="w-full">
         <h2 className="text-xl sm:text-2xl font-playfair font-bold text-black mb-6 sm:mb-8">Shop by Category</h2>
         
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-8 gap-2.5 sm:gap-3">
           {categories.map((category, index) => (
             <div key={index} className="group">
               <Link to={category.link}>
                 <div className="cursor-pointer">
-                  <div className="relative overflow-hidden rounded-lg mb-2 sm:mb-3">
+                  <div className="relative overflow-hidden rounded-lg mb-1.5 aspect-square bg-gray-50 flex items-center justify-center p-1 border border-gray-100 shadow-2xs group-hover:shadow-md transition-all">
                     <img 
                       src={category.image}
                       alt={category.title}
                       loading="lazy"
                       decoding="async"
-                      className="w-full h-32 sm:h-40 lg:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover rounded-md group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-xs sm:text-sm font-medium text-black tracking-wide">
+                  <div className="flex items-center justify-between px-0.5">
+                    <h3 className="text-[11px] sm:text-xs font-semibold text-black tracking-wide truncate">
                       {category.title}
                     </h3>
                     <button
@@ -89,10 +89,10 @@ const Features: React.FC = () => {
                         e.preventDefault();
                         toggleCategory(category.title);
                       }}
-                      className="p-1 hover:bg-gray-100 rounded"
+                      className="p-0.5 hover:bg-gray-100 rounded"
                     >
                       <ChevronDown 
-                        className={`h-3 w-3 sm:h-4 sm:w-4 text-gray-600 transition-transform ${
+                        className={`h-3 w-3 text-gray-500 transition-transform ${
                           expandedCategory === category.title ? 'rotate-180' : ''
                         }`} 
                       />

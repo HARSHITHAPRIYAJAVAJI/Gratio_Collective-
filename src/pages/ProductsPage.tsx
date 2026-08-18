@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Header from "@/pages/Index";
+import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 const categories = ["Accessories", "Sunglasses", "Girl's Collection", "Clothing", "Beauty", "New Products"];
@@ -22,7 +22,9 @@ const ProductsPage: React.FC = () => {
   });
 
   return (
-    <div className="flex bg-white text-gray-800 font-sans min-h-screen">
+    <div className="min-h-screen bg-white font-inter flex flex-col justify-between">
+      <Navbar showBack backTo="/" />
+      <div className="flex flex-1 text-gray-800">
       {/* Sidebar */}
       <aside className="w-64 border-r border-amber-100 bg-white/60 backdrop-blur-md p-6 shadow-sm">
         <h2 className="text-xl font-bold mb-4">Categories</h2>
@@ -48,14 +50,14 @@ const ProductsPage: React.FC = () => {
           ))}
         </ul>
 
-        <h2 className="text-xl font-bold mt-8 mb-4">Condition</h2>
-        <div className="space-y-2">
-          {["All", "New", "Pre-Owned"].map((condition) => (
+        <h2 className="text-sm font-bold uppercase tracking-wider text-black mt-6 mb-3">Condition</h2>
+        <div className="space-y-1">
+          {["All", "New", "Pre-owned", "Very Good"].map((condition) => (
             <button
               key={condition}
               onClick={() => setSelectedCondition(condition)}
-              className={`w-full text-left px-2 py-1 rounded-md ${
-                selectedCondition === condition ? "bg-yellow-100 font-semibold" : "hover:bg-yellow-50"
+              className={`w-full text-left px-2 py-1 text-xs rounded-md ${
+                selectedCondition === condition ? "bg-black text-white font-medium" : "text-gray-600 hover:bg-gray-100"
               }`}
             >
               {condition}
@@ -92,32 +94,36 @@ const ProductsPage: React.FC = () => {
         {/* Product Grid Section */}
         <section>
           <h2 className="text-xl font-semibold mb-4">Products</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2.5 sm:gap-4">
             {filteredProducts.length > 0 ? (
               filteredProducts.map((product) => (
                 <div
                   key={product.id}
-                  className="bg-white rounded-xl overflow-hidden shadow hover:shadow-md transition border border-gray-100"
+                  className="bg-white rounded-lg overflow-hidden shadow-2xs hover:shadow-md transition border border-gray-100 flex flex-col justify-between"
                 >
-                  <img
-                    src={product.img}
-                    alt={product.name}
-                    className="w-full h-52 object-cover"
-                  />
-                  <div className="p-4">
-                    <h3 className="font-semibold text-lg">{product.name}</h3>
-                    <p className="text-sm text-gray-500">{product.category}</p>
-                    <p className="text-sm">{product.condition}</p>
-                    <p className="text-pink-600 font-bold mt-2">${product.price.toFixed(2)}</p>
+                  <div className="aspect-square bg-gray-50 flex items-center justify-center p-2">
+                    <img
+                      src={product.img}
+                      alt={product.name}
+                      className="w-full h-full object-cover rounded"
+                    />
+                  </div>
+                  <div className="p-2.5">
+                    <p className="text-[10px] text-gray-500 font-semibold uppercase tracking-wider">{product.category}</p>
+                    <h3 className="font-medium text-xs sm:text-sm text-black line-clamp-1">{product.name}</h3>
+                    <p className="text-[11px] text-gray-500">{product.condition}</p>
+                    <p className="text-pink-600 font-bold text-xs sm:text-sm mt-1">${product.price.toFixed(2)}</p>
                   </div>
                 </div>
               ))
             ) : (
-              <p className="text-gray-500">No products match the selected filters.</p>
+              <p className="text-gray-500 col-span-full py-8 text-center">No products match the selected filters.</p>
             )}
           </div>
         </section>
       </main>
+      </div>
+      <Footer />
     </div>
   );
 };

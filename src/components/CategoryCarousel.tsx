@@ -99,7 +99,7 @@ const CategoryCarousel: React.FC = () => {
                       src={slide.image}
                       alt={slide.title}
                       loading={index === 0 ? "eager" : "lazy"}
-                      fetchPriority={index === 0 ? "high" : "auto"}
+                      {...(index === 0 ? ({ fetchpriority: "high" } as any) : {})}
                       decoding="async"
                       className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                     />

@@ -2,55 +2,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { ShoppingCart, Search, Heart, ArrowLeft, User, Package, Settings, CreditCard, MapPin, Phone, Mail } from "lucide-react";
+import { User, Package, Settings, CreditCard, MapPin, Phone, Mail } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 
 const Profile: React.FC = () => {
   return (
     <div className="min-h-screen bg-white font-inter">
-      {/* Top Banner */}
-      <div className="bg-yellow-300 text-center py-2">
-        <p className="text-sm font-medium text-black">Get 10% off with code WELCOME10*</p>
-      </div>
-
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-4">
-              <Link to="/" className="flex items-center space-x-2">
-                <ArrowLeft className="h-5 w-5 text-black" />
-                <span className="text-sm font-medium">Back</span>
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-2">
-              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-                <img 
-                  src="/images/l.webp" 
-                  alt="Gratio Collective" 
-                  className="h-10 sm:h-12 w-auto object-contain" 
-                />
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-4">
-              <Link to="/favorites" className="relative">
-                <Heart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </Badge>
-              </Link>
-              <div className="relative">
-                <ShoppingCart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  0
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Navbar showBack backTo="/" />
 
       {/* Profile Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -109,7 +69,7 @@ const Profile: React.FC = () => {
                       <CardContent className="p-4">
                         <div className="flex justify-between items-start">
                           <div className="flex space-x-4">
-                            <img 
+                            <img
                               src={`https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=80&h=80&fit=crop&crop=center`}
                               alt="Product"
                               className="w-16 h-16 object-cover rounded"
@@ -195,6 +155,7 @@ const Profile: React.FC = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

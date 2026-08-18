@@ -1,85 +1,12 @@
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ShoppingCart, Menu, Search, User, Heart, X, ArrowLeft, MapPin } from "lucide-react";
+import Navbar from "@/components/Navbar";
+import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
-import { useState } from "react";
 
 const AboutUs: React.FC = () => {
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
   return (
     <div className="min-h-screen bg-white font-inter">
-      {/* Top Banner */}
-      <div className="bg-yellow-300 text-center py-2">
-        <p className="text-xs sm:text-sm font-medium text-black">Get 10% off with code WELCOME10*</p>
-      </div>
-
-      {/* Navigation */}
-      <nav className="bg-white shadow-sm border-b border-gray-100 sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <button 
-                onClick={() => setIsMobileMenuOpen(true)}
-                className="md:hidden p-2 rounded-full hover:bg-gray-100 transition-colors"
-              >
-                <Menu className="h-5 w-5 text-black" />
-              </button>
-              
-              <Link to="/" className="flex items-center space-x-2">
-                <ArrowLeft className="h-4 w-4 sm:h-5 sm:w-5 text-black" />
-                <span className="text-xs sm:text-sm font-medium">Back</span>
-              </Link>
-            </div>
-
-            <div className="flex items-center">
-              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
-                <img 
-                  src="/images/l.webp" 
-                  alt="Gratio Collective" 
-                  className="h-10 sm:h-12 w-auto object-contain" 
-                />
-              </Link>
-            </div>
-
-            <div className="flex items-center space-x-2 sm:space-x-4">
-              <Link to="/favorites" className="relative">
-                <Heart className="h-4 w-4 sm:h-5 sm:w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
-                  3
-                </Badge>
-              </Link>
-              <div className="relative">
-                <ShoppingCart className="h-4 w-4 sm:h-5 sm:w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">
-                  0
-                </Badge>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Mobile Menu Overlay */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden fixed inset-0 z-50 bg-black bg-opacity-50">
-            <div className="bg-white w-64 h-full shadow-lg">
-              <div className="flex justify-between items-center p-4 border-b">
-                <span className="text-lg font-playfair font-bold">Menu</span>
-                <button onClick={() => setIsMobileMenuOpen(false)}>
-                  <X className="h-6 w-6" />
-                </button>
-              </div>
-              <div className="p-4 space-y-4">
-                <Link to="/women" className="block py-2 text-sm font-medium text-black">Women</Link>
-                <Link to="/men" className="block py-2 text-sm font-medium text-black">Men</Link>
-                <Link to="/children" className="block py-2 text-sm font-medium text-black">Children</Link>
-                <Link to="/bags" className="block py-2 text-sm font-medium text-black">Bags</Link>
-                <Link to="/jewelry" className="block py-2 text-sm font-medium text-black">Jewelry</Link>
-              </div>
-            </div>
-          </div>
-        )}
-      </nav>
+      <Navbar showBack backTo="/" />
 
       {/* About Us Content */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
@@ -140,6 +67,7 @@ const AboutUs: React.FC = () => {
           </Link>
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

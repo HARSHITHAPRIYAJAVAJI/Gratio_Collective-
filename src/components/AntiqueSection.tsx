@@ -96,12 +96,12 @@ const AntiqueSection: React.FC = () => {
           </button>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3 sm:gap-6">
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2.5 sm:gap-4">
           {products.map((product) => {
             const isFav = isFavorite(product.id);
             return (
-              <div key={product.id} className="group cursor-pointer">
-                <div className="relative overflow-hidden rounded-xl mb-3 aspect-[3/4] bg-[#f7f7f8] flex items-center justify-center p-3">
+              <div key={product.id} className="group cursor-pointer flex flex-col justify-between">
+                <div className="relative overflow-hidden rounded-lg mb-2 aspect-square bg-[#f7f7f8] flex items-center justify-center p-2.5">
                   <img
                     src={product.image}
                     alt={product.name}
@@ -109,8 +109,8 @@ const AntiqueSection: React.FC = () => {
                     decoding="async"
                     className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                   />
-                  <div className="absolute top-3 left-3 z-10">
-                    <span className="bg-white/95 text-black font-semibold text-[10px] tracking-wider uppercase px-2 py-1 rounded shadow-xs">
+                  <div className="absolute top-2 left-2 z-10">
+                    <span className="bg-white/95 text-black font-semibold text-[9px] tracking-wider uppercase px-1.5 py-0.5 rounded shadow-2xs">
                       {product.badge}
                     </span>
                   </div>
@@ -119,47 +119,44 @@ const AntiqueSection: React.FC = () => {
                       e.stopPropagation();
                       toggleFavorite(product);
                     }}
-                    className="absolute top-3 right-3 flex items-center space-x-1 bg-white/90 hover:bg-white px-2 py-1 rounded-full shadow-xs hover:shadow-md transition-all z-10"
+                    className="absolute top-2 right-2 flex items-center space-x-1 bg-white/90 hover:bg-white px-1.5 py-0.5 rounded-full shadow-2xs hover:shadow-xs transition-all z-10"
                     title={isFav ? "Remove from favorites" : "Add to favorites"}
                     aria-label="Toggle favorite"
                   >
-                    <Heart className={`h-3.5 w-3.5 transition-colors ${isFav ? "text-red-500 fill-red-500" : "text-gray-500 hover:text-red-500"}`} />
-                    <span className="text-xs text-black font-medium">{product.likes ? product.likes + (isFav ? 1 : 0) : ""}</span>
+                    <Heart className={`h-3 w-3 transition-colors ${isFav ? "text-red-500 fill-red-500" : "text-gray-500 hover:text-red-500"}`} />
+                    <span className="text-[10px] text-black font-medium">{product.likes ? product.likes + (isFav ? 1 : 0) : ""}</span>
                   </button>
                   {product.trusted && (
-                    <div className="absolute bottom-3 left-3 z-10">
-                      <span className="bg-orange-100/95 text-orange-700 text-xs px-2 py-0.5 rounded-md flex items-center font-medium shadow-xs">
-                        🛡️ Trusted Seller
+                    <div className="absolute bottom-2 left-2 z-10">
+                      <span className="bg-orange-100/95 text-orange-700 text-[9px] px-1.5 py-0.5 rounded flex items-center font-medium shadow-2xs">
+                        🛡️ Trusted
                       </span>
                     </div>
                   )}
                   {product.expert && (
-                    <div className="absolute bottom-3 left-3 z-10">
-                      <span className="bg-orange-100/95 text-orange-700 text-xs px-2 py-0.5 rounded-md flex items-center font-medium shadow-xs">
-                        🏆 Expert Seller
+                    <div className="absolute bottom-2 left-2 z-10">
+                      <span className="bg-orange-100/95 text-orange-700 text-[9px] px-1.5 py-0.5 rounded flex items-center font-medium shadow-2xs">
+                        🏆 Expert
                       </span>
                     </div>
                   )}
                 </div>
 
-              <div className="space-y-1">
-                <h3 className="text-sm font-bold text-black">{product.brand}</h3>
-                <p className="text-sm text-gray-600">{product.name}</p>
+              <div className="space-y-0.5">
+                <h3 className="text-[10px] font-bold uppercase tracking-wider text-gray-500">{product.brand}</h3>
+                <p className="text-xs sm:text-sm font-medium text-black line-clamp-1 group-hover:underline">{product.name}</p>
                 {product.size && (
-                  <p className="text-xs text-gray-500">{product.size}</p>
+                  <p className="text-[11px] text-gray-500">Size: {product.size}</p>
                 )}
-                <div className="flex items-center space-x-2">
+                <div className="flex items-center space-x-1.5 pt-0.5">
+                  <span className="text-xs sm:text-sm font-bold text-red-600">{product.price}</span>
                   {product.originalPrice && (
-                    <span className="text-sm text-gray-400 line-through">{product.originalPrice}</span>
+                    <span className="text-[10px] text-gray-400 line-through">{product.originalPrice}</span>
                   )}
-                  <span className="text-sm font-bold text-red-600">{product.price}</span>
                 </div>
-                <div className="flex items-center text-xs text-gray-500">
-                  <span className="mr-2">📦 Direct Shipping</span>
-                </div>
-                <div className="flex items-center text-xs text-gray-500">
-                  <span className="mr-1">🇺🇸</span>
-                  <span>United States</span>
+                <div className="flex items-center text-[10px] text-gray-500 pt-0.5">
+                  <span className="mr-1.5">📦 Direct</span>
+                  <span>🇺🇸 US</span>
                 </div>
               </div>
             </div>
