@@ -4,11 +4,13 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { 
   ShoppingCart, Menu, Search, User, Heart, List, 
-  ChevronUp, ChevronDown, ChevronRight, X, ArrowLeft 
+  ChevronUp, ChevronDown, ChevronRight, X, ArrowLeft,
+  Shield, Package, LogOut
 } from "lucide-react";
 import LocationSelector from "@/components/LocationSelector";
 import { useFavorites } from "@/utils/favorites";
 import { useCart } from "@/utils/cart";
+import { useAuth } from "@/utils/auth";
 
 interface NavbarProps {
   showBack?: boolean;
@@ -47,6 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ showBack = false, backTo = "/" }) => {
   const { favorites } = useFavorites();
   const favoritesCount = favorites.length;
   const { count: cartCount } = useCart();
+  const { user, role, isAuthenticated, logout } = useAuth();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [isSearchOpen, setIsSearchOpen] = useState(false);
@@ -172,20 +175,62 @@ const Navbar: React.FC<NavbarProps> = ({ showBack = false, backTo = "/" }) => {
                 )}
               </div>
 
-              {/* Sell an item button */}
-              <Link to="/sell" className="hidden sm:inline-flex">
-                <Button className="bg-black text-white hover:bg-gray-800 rounded-md px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-medium transition whitespace-nowrap">
-                  Sell an item
-                </Button>
-              </Link>
+              {/* Role Portal Shortcut */}
+              {isAuthenticated && role === "admin" && (
+                <Link
+                  to="/admin"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-600 hover:bg-red-700 text-white text-xs font-bold shadow-xs transition-colors"
+                >
+                  <Shield className="h-3.5 w-3.5" />
+                  <span>Admin Console</span>
+                </Link>
+              )}
 
-              {/* Sign In */}
-              <Link
-                to="/signin"
-                className="text-xs sm:text-sm font-medium text-black hover:text-gray-600 transition-colors whitespace-nowrap hidden lg:inline-block"
-              >
-                Sign in
-              </Link>
+              {isAuthenticated && role === "seller" && (
+                <Link
+                  to="/sell"
+                  className="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-black hover:bg-neutral-800 text-white text-xs font-bold shadow-xs transition-colors"
+                >
+                  <Package className="h-3.5 w-3.5" />
+                  <span>Seller Studio</span>
+                </Link>
+              )}
+
+              {/* Sell an item button (for visitors / buyers) */}
+              {(!isAuthenticated || role === "buyer") && (
+                <Link to="/sell" className="hidden sm:inline-flex">
+                  <Button className="bg-black text-white hover:bg-gray-800 rounded-md px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-medium transition whitespace-nowrap">
+                    Sell an item
+                  </Button>
+                </Link>
+              )}
+
+              {/* Sign In / User Profile */}
+              {isAuthenticated ? (
+                <div className="hidden lg:flex items-center gap-2">
+                  <Link
+                    to={role === "admin" ? "/admin" : role === "seller" ? "/sell" : "/profile"}
+                    className="text-xs sm:text-sm font-semibold text-black hover:text-gray-600 transition-colors whitespace-nowrap"
+                  >
+                    Hi, {user?.name?.split(" ")[0] || "User"}
+                  </Link>
+                  <button
+                    onClick={() => logout()}
+                    className="text-gray-400 hover:text-red-600 p-1 rounded transition-colors"
+                    title="Sign Out"
+                    aria-label="Sign out"
+                  >
+                    <LogOut className="h-4 w-4" />
+                  </button>
+                </div>
+              ) : (
+                <Link
+                  to="/signin"
+                  className="text-xs sm:text-sm font-medium text-black hover:text-gray-600 transition-colors whitespace-nowrap hidden lg:inline-block"
+                >
+                  Sign in
+                </Link>
+              )}
 
               {/* Favorites */}
               <Link
@@ -364,43 +409,118 @@ const Navbar: React.FC<NavbarProps> = ({ showBack = false, backTo = "/" }) => {
 
                 {/* Account & Shopping Quick Links */}
                 <div className="pt-3 border-t border-gray-100 pb-6">
-                  <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">
-                    Account & Shopping
-                  </span>
-                  <div className="grid grid-cols-2 gap-2">
-                    <Link
-                      to="/cart"
-                      onClick={() => setShowMobileMenu(false)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
-                    >
-                      <ShoppingCart className="h-4 w-4 text-black" />
-                      <span>Bag ({cartCount})</span>
-                    </Link>
-                    <Link
-                      to="/favorites"
-                      onClick={() => setShowMobileMenu(false)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
-                    >
-                      <Heart className="h-4 w-4 text-red-500" />
-                      <span>Favorites ({favoritesCount})</span>
-                    </Link>
-                    <Link
-                      to="/profile"
-                      onClick={() => setShowMobileMenu(false)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
-                    >
-                      <User className="h-4 w-4 text-gray-600" />
-                      <span>My Profile</span>
-                    </Link>
-                    <Link
-                      to="/signin"
-                      onClick={() => setShowMobileMenu(false)}
-                      className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
-                    >
-                      <User className="h-4 w-4 text-gray-600" />
-                      <span>Sign In</span>
-                    </Link>
+                  <div className="flex items-center justify-between mb-2">
+                    <span className="text-xs font-bold text-gray-400 uppercase tracking-wider">
+                      Account & Portal
+                    </span>
+                    {isAuthenticated && (
+                      <span className={`text-[10px] font-bold uppercase px-2 py-0.5 rounded-full ${
+                        role === "admin" 
+                          ? "bg-red-100 text-red-700" 
+                          : role === "seller" 
+                            ? "bg-neutral-900 text-white" 
+                            : "bg-blue-100 text-blue-700"
+                      }`}>
+                        {role}
+                      </span>
+                    )}
                   </div>
+
+                  {isAuthenticated ? (
+                    <div className="space-y-2">
+                      <div className="p-3 bg-gray-50 rounded-xl border border-gray-200">
+                        <div className="flex items-center justify-between">
+                          <div>
+                            <p className="text-xs font-bold text-black">{user?.name}</p>
+                            <p className="text-[11px] text-gray-500">{user?.email}</p>
+                          </div>
+                          <button
+                            onClick={() => {
+                              logout();
+                              setShowMobileMenu(false);
+                            }}
+                            className="text-xs font-semibold text-red-600 hover:underline"
+                          >
+                            Sign Out
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className="grid grid-cols-2 gap-2">
+                        {role === "admin" && (
+                          <Link
+                            to="/admin"
+                            onClick={() => setShowMobileMenu(false)}
+                            className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl bg-red-600 text-white text-xs font-semibold shadow-xs"
+                          >
+                            <Shield className="h-4 w-4" />
+                            <span>Maison Admin Console</span>
+                          </Link>
+                        )}
+                        {role === "seller" && (
+                          <Link
+                            to="/sell"
+                            onClick={() => setShowMobileMenu(false)}
+                            className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl bg-black text-white text-xs font-semibold shadow-xs"
+                          >
+                            <Package className="h-4 w-4" />
+                            <span>Seller Consignment Studio</span>
+                          </Link>
+                        )}
+                        <Link
+                          to="/cart"
+                          onClick={() => setShowMobileMenu(false)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                        >
+                          <ShoppingCart className="h-4 w-4 text-black" />
+                          <span>Bag ({cartCount})</span>
+                        </Link>
+                        <Link
+                          to="/favorites"
+                          onClick={() => setShowMobileMenu(false)}
+                          className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                        >
+                          <Heart className="h-4 w-4 text-red-500" />
+                          <span>Favorites ({favoritesCount})</span>
+                        </Link>
+                        <Link
+                          to="/profile"
+                          onClick={() => setShowMobileMenu(false)}
+                          className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                        >
+                          <User className="h-4 w-4 text-gray-600" />
+                          <span>My Full Profile & Settings</span>
+                        </Link>
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        to="/cart"
+                        onClick={() => setShowMobileMenu(false)}
+                        className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                      >
+                        <ShoppingCart className="h-4 w-4 text-black" />
+                        <span>Bag ({cartCount})</span>
+                      </Link>
+                      <Link
+                        to="/favorites"
+                        onClick={() => setShowMobileMenu(false)}
+                        className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                      >
+                        <Heart className="h-4 w-4 text-red-500" />
+                        <span>Favorites ({favoritesCount})</span>
+                      </Link>
+                      <Link
+                        to="/signin"
+                        onClick={() => setShowMobileMenu(false)}
+                        className="col-span-2 flex items-center justify-center gap-2 p-2.5 rounded-xl bg-black text-white text-xs font-semibold shadow-xs"
+                      >
+                        <User className="h-4 w-4" />
+                        <span>Sign In to Your Account</span>
+                      </Link>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>
