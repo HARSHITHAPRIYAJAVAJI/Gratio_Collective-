@@ -4,9 +4,10 @@ import { Badge } from "@/components/ui/badge";
 import { ShoppingCart, Menu, Search, User, Heart, X, Filter, Grid, List } from "lucide-react";
 import { Link, useSearchParams } from "react-router-dom";
 import ProductFilter from "@/components/ProductFilter";
-
+import { useFavorites } from "@/utils/favorites";
 
 const Vintage: React.FC = () => {
+  const { isFavorite, toggleFavorite, count: favoritesCount } = useFavorites();
   const [searchParams] = useSearchParams();
   const [filteredProducts, setFilteredProducts] = useState<any[]>([]);
   const subcategory = searchParams.get('subcategory');
@@ -81,9 +82,13 @@ const Vintage: React.FC = () => {
                 <Button className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-none px-3 sm:px-4 py-2 text-xs sm:text-sm">Sell</Button>
               </Link>
               <Link to="/signin" className="hidden sm:block text-xs sm:text-sm font-medium text-foreground hover:text-muted-foreground">Sign in</Link>
-              <Link to="/favorites" className="relative">
+              <Link to="/favorites" className="relative p-1.5 rounded-full hover:bg-accent transition-colors">
                 <Heart className="h-5 w-5 text-foreground cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-destructive text-destructive-foreground text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center">3</Badge>
+                {favoritesCount > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
+                    {favoritesCount}
+                  </Badge>
+                )}
               </Link>
               <div className="relative">
                 <ShoppingCart className="h-5 w-5 text-foreground cursor-pointer" />
@@ -151,8 +156,24 @@ const Vintage: React.FC = () => {
                   <div className={`bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow ${viewMode === 'list' ? 'flex' : ''}`}>
                     <div className={`relative ${viewMode === 'list' ? 'w-32 h-32 flex-shrink-0' : 'w-full h-48 sm:h-56'}`}>
                       <img src={product.image} alt={product.name} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
-                      <button className="absolute top-2 right-2 p-2 bg-white/80 hover:bg-white rounded-full transition-colors">
-                        <Heart className="h-4 w-4 text-gray-600 hover:text-red-500" />
+                      <button 
+                        onClick={(e) => {
+                          e.preventDefault();
+                          e.stopPropagation();
+                          toggleFavorite({
+                            id: product.id,
+                            name: product.name,
+                            brand: product.brand,
+                            price: `$${product.price}`,
+                            originalPrice: product.originalPrice ? `$${product.originalPrice}` : undefined,
+                            image: product.image,
+                            category: product.category
+                          });
+                        }}
+                        className="absolute top-2 right-2 p-2 bg-white/90 hover:bg-white rounded-full shadow-xs transition-colors z-10"
+                        title={isFavorite(product.id) ? "Remove from favorites" : "Add to favorites"}
+                      >
+                        <Heart className={`h-4 w-4 transition-colors ${isFavorite(product.id) ? "text-red-500 fill-red-500" : "text-gray-500 hover:text-red-500"}`} />
                       </button>
                     </div>
                     <div className="p-3 sm:p-4 flex-1">

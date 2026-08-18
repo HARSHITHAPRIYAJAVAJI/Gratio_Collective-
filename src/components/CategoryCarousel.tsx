@@ -63,8 +63,8 @@ const CategoryCarousel: React.FC = () => {
   }, []);
 
   return (
-    <section className="relative mx-4 mb-8 rounded-lg overflow-hidden">
-      <div className="relative h-96 lg:h-[500px]">
+    <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 mt-6 mb-12">
+      <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
         {slides.map((slide, index) => (
           <div
             key={slide.id}

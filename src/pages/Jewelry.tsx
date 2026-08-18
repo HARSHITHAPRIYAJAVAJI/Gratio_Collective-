@@ -5,8 +5,10 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import ProductFilter from "@/components/ProductFilter";
 import ProductDetail from "@/components/ProductDetail";
+import { useFavorites } from "@/utils/favorites";
 
 const Jewelry: React.FC = () => {
+  const { isFavorite, toggleFavorite, count: favoritesCount } = useFavorites();
   const [filters, setFilters] = useState({});
   const [selectedProduct, setSelectedProduct] = useState<number | null>(null);
   const navigate = useNavigate();
@@ -72,7 +74,13 @@ const Jewelry: React.FC = () => {
   if (selectedProduct) {
     const product = jewelryProducts.find(p => p.id === selectedProduct);
     if (product) {
-      return <ProductDetail product={product} />;
+      return (
+        <ProductDetail 
+          product={product} 
+          onBack={() => setSelectedProduct(null)} 
+          onSelectProduct={(p) => setSelectedProduct(p.id)}
+        />
+      );
     }
   }
 
@@ -101,18 +109,20 @@ const Jewelry: React.FC = () => {
             </div>
 
             <div className="flex items-center space-x-4">
-              <Link to="/favorites" className="relative">
+              <Link to="/favorites" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Favorites">
                 <Heart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                  3
-                </Badge>
+                {favoritesCount > 0 && (
+                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
+                    {favoritesCount}
+                  </Badge>
+                )}
               </Link>
-              <Link to="/profile">
+              <Link to="/profile" className="p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Profile">
                 <User className="h-5 w-5 text-black cursor-pointer" />
               </Link>
-              <div className="relative">
+              <div className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors">
                 <ShoppingCart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
+                <Badge className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
                   0
                 </Badge>
               </div>
@@ -127,26 +137,29 @@ const Jewelry: React.FC = () => {
         <h1 className="text-3xl font-playfair font-bold text-black mb-8">Jewelry & Watches</h1>
         
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {jewelryProducts.map((item) => (
+          {jewelryProducts.map((item) => {
+            const isFav = isFavorite(item.id);
+            return (
             <div 
               key={item.id} 
               className="group cursor-pointer"
               onClick={() => setSelectedProduct(item.id)}
             >
-              <div className="relative overflow-hidden rounded-lg mb-3">
+              <div className="relative overflow-hidden rounded-lg mb-3 aspect-[3/4] bg-gray-50 flex items-center justify-center p-2">
                 <img 
                   src={item.images[0]}
                   alt={item.name}
-                  className="w-full h-80 object-cover group-hover:scale-105 transition-transform duration-300"
+                  className="w-full h-full object-contain group-hover:scale-105 transition-transform duration-300"
                 />
                 <button 
-                  className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow"
+                  className="absolute top-3 right-3 p-2 bg-white rounded-full shadow-md hover:shadow-lg transition-shadow z-10"
                   onClick={(e) => {
                     e.stopPropagation();
-                    console.log('Added to favorites:', item.name);
+                    toggleFavorite(item);
                   }}
+                  aria-label="Toggle favorite"
                 >
-                  <Heart className="h-4 w-4 text-red-500 fill-current" />
+                  <Heart className={`h-4 w-4 transition-colors ${isFav ? "text-red-500 fill-red-500" : "text-gray-400 hover:text-red-500"}`} />
                 </button>
                 {!item.inStock && (
                   <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -168,7 +181,8 @@ const Jewelry: React.FC = () => {
                 </div>
               </div>
             </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </div>

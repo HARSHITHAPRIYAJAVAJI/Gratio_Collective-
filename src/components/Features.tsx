@@ -62,8 +62,8 @@ const Features: React.FC = () => {
   };
 
   return (
-    <section className="py-5 sm:py-1 lg:py-16 px-4 sm:px-6 lg:px-8 bg-white">
-      <div className="max-w-7xl mx-auto">
+    <section className="py-6 sm:py-10 px-4 sm:px-6 lg:px-8 xl:px-10 bg-white w-full">
+      <div className="w-full">
         <h2 className="text-xl sm:text-2xl font-playfair font-bold text-black mb-6 sm:mb-8">Shop by Category</h2>
         
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 lg:gap-6">

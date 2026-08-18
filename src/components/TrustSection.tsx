@@ -41,8 +41,8 @@ const features = [
 
 const TrustSection: React.FC = () => {
   return (
-    <section className="py-20 px-4 sm:px-6 lg:px-8 bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto text-center">
+    <section className="py-16 sm:py-20 px-4 sm:px-6 lg:px-8 xl:px-10 bg-gradient-to-br from-gray-50 to-white w-full">
+      <div className="w-full text-center">
         <h2 className="text-3xl sm:text-4xl font-playfair text-black mb-4">
           Trust & Security
         </h2>
