@@ -63,8 +63,8 @@ const CategoryCarousel: React.FC = () => {
   }, []);
 
   return (
-    <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 mt-6 mb-12">
-      <div className="relative h-96 lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
+    <section className="w-full px-4 sm:px-6 lg:px-8 xl:px-10 mt-4 sm:mt-6 mb-8 sm:mb-12">
+      <div className="relative h-[440px] sm:h-[480px] lg:h-[500px] rounded-2xl overflow-hidden shadow-md">
         {slides.map((slide, index) => (
           <div
             key={slide.id}
@@ -78,23 +78,23 @@ const CategoryCarousel: React.FC = () => {
           >
             <Link to={slide.link} className="block h-full">
               <div className={`${slide.bgColor} h-full relative overflow-hidden group cursor-pointer`}>
-                <div className="grid grid-cols-1 lg:grid-cols-2 h-full">
+                <div className="grid grid-cols-1 md:grid-cols-2 h-full">
                   {/* Left side - Content */}
-                  <div className="flex flex-col justify-center p-8 lg:p-12 z-10 relative">
-                    <h2 className="text-4xl lg:text-6xl font-playfair font-bold text-black mb-4 group-hover:transform group-hover:translate-x-2 transition-transform duration-300">
+                  <div className="flex flex-col justify-center p-6 sm:p-8 lg:p-12 z-10 relative order-2 md:order-1">
+                    <h2 className="text-2xl sm:text-4xl lg:text-5xl font-playfair font-bold text-black mb-2 sm:mb-4 group-hover:transform group-hover:translate-x-2 transition-transform duration-300">
                       {slide.title}
                     </h2>
-                    <p className="text-lg lg:text-xl text-gray-700 mb-6 group-hover:transform group-hover:translate-x-2 transition-transform duration-300 delay-75">
+                    <p className="text-sm sm:text-base lg:text-xl text-gray-700 mb-4 sm:mb-6 group-hover:transform group-hover:translate-x-2 transition-transform duration-300 delay-75">
                       {slide.subtitle}
                     </p>
-                    <div className="inline-flex items-center text-black font-medium group-hover:transform group-hover:translate-x-2 transition-transform duration-300 delay-150">
+                    <div className="inline-flex items-center text-black font-semibold text-xs sm:text-sm group-hover:transform group-hover:translate-x-2 transition-transform duration-300 delay-150">
                       <span className="mr-2">Shop Now</span>
-                      <ChevronRight className="h-5 w-5 group-hover:transform group-hover:translate-x-1 transition-transform duration-300" />
+                      <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5 group-hover:transform group-hover:translate-x-1 transition-transform duration-300" />
                     </div>
                   </div>
                   
                   {/* Right side - Image */}
-                  <div className="relative overflow-hidden">
+                  <div className="relative h-48 sm:h-64 md:h-full w-full overflow-hidden order-1 md:order-2">
                     <img 
                       src={slide.image}
                       alt={slide.title}
@@ -111,32 +111,34 @@ const CategoryCarousel: React.FC = () => {
           </div>
         ))}
         
-        {/* Navigation Arrows */}
+        {/* Navigation Arrows (Hidden on tiny mobile to prevent covering text) */}
         <button
           onClick={prevSlide}
-          className="absolute left-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200 z-20 shadow-lg"
+          className="hidden sm:flex absolute left-3 sm:left-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all duration-200 z-20 shadow-md"
+          aria-label="Previous slide"
         >
-          <ChevronLeft className="h-6 w-6 text-black" />
+          <ChevronLeft className="h-5 w-5 text-black" />
         </button>
         
         <button
           onClick={nextSlide}
-          className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 rounded-full p-2 transition-all duration-200 z-20 shadow-lg"
+          className="hidden sm:flex absolute right-3 sm:right-4 top-1/2 transform -translate-y-1/2 bg-white/80 hover:bg-white rounded-full p-2 transition-all duration-200 z-20 shadow-md"
+          aria-label="Next slide"
         >
-          <ChevronRight className="h-6 w-6 text-black" />
+          <ChevronRight className="h-5 w-5 text-black" />
         </button>
       </div>
       
       {/* Slide Indicators */}
-      <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
+      <div className="absolute bottom-4 sm:bottom-6 left-1/2 transform -translate-x-1/2 flex space-x-2 z-20">
         {slides.map((_, index) => (
           <button
             key={index}
             onClick={() => setCurrentSlide(index)}
-            className={`w-3 h-3 rounded-full transition-all duration-200 ${
+            className={`w-2.5 h-2.5 sm:w-3 sm:h-3 rounded-full transition-all duration-200 ${
               index === currentSlide 
-                ? 'bg-white scale-110' 
-                : 'bg-white bg-opacity-50 hover:bg-opacity-75'
+                ? 'bg-black scale-110' 
+                : 'bg-black/30 hover:bg-black/50'
             }`}
           />
         ))}

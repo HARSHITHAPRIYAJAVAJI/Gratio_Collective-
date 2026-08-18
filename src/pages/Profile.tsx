@@ -94,11 +94,11 @@ const Profile: React.FC = () => {
           {/* Profile Tabs */}
           <div className="lg:col-span-2">
             <Tabs defaultValue="orders" className="w-full">
-              <TabsList className="grid w-full grid-cols-4">
-                <TabsTrigger value="orders">Orders</TabsTrigger>
-                <TabsTrigger value="selling">Selling</TabsTrigger>
-                <TabsTrigger value="payments">Payments</TabsTrigger>
-                <TabsTrigger value="addresses">Addresses</TabsTrigger>
+              <TabsList className="grid w-full grid-cols-4 h-10">
+                <TabsTrigger value="orders" className="text-xs sm:text-sm px-1 sm:px-3">Orders</TabsTrigger>
+                <TabsTrigger value="selling" className="text-xs sm:text-sm px-1 sm:px-3">Selling</TabsTrigger>
+                <TabsTrigger value="payments" className="text-xs sm:text-sm px-1 sm:px-3">Payments</TabsTrigger>
+                <TabsTrigger value="addresses" className="text-xs sm:text-sm px-1 sm:px-3">Addresses</TabsTrigger>
               </TabsList>
 
               <TabsContent value="orders" className="space-y-4">

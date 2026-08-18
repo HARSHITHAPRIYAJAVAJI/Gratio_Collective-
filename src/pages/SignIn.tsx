@@ -17,8 +17,8 @@ const SignIn: React.FC = () => {
 
   if (!selectedRole) {
     return (
-      <div className="min-h-screen bg-white font-inter flex items-center justify-center">
-        <div className="max-w-md w-full mx-4">
+      <div className="min-h-screen bg-white font-inter flex items-center justify-center p-4 py-8 sm:py-12">
+        <div className="max-w-md w-full">
           <div className="text-center mb-8">
             <Link to="/" className="inline-flex items-center text-sm text-gray-600 mb-4">
               <ArrowLeft className="h-4 w-4 mr-1" />
@@ -68,8 +68,8 @@ const SignIn: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-white font-inter flex items-center justify-center">
-      <div className="max-w-md w-full mx-4">
+    <div className="min-h-screen bg-white font-inter flex items-center justify-center p-4 py-8 sm:py-12">
+      <div className="max-w-md w-full">
         <div className="text-center mb-8">
           <button 
             onClick={() => setSelectedRole(null)}

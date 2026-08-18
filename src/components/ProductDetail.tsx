@@ -646,7 +646,7 @@ const ProductDetail: React.FC<ProductDetailProps> = ({
           </div>
 
           {/* Recommendations Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-6">
             {recommendedProducts.map((item) => {
               const isRecFav = isFavorite(item.id);
               return (

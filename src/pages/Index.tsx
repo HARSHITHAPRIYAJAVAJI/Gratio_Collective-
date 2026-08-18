@@ -139,18 +139,18 @@ const Index: React.FC = () => {
             </div>
 
             {/* Right: Actions */}
-            <div className="flex items-center space-x-2 sm:space-x-4 flex-shrink-0">
+            <div className="flex items-center space-x-1.5 sm:space-x-3 flex-shrink-0">
               {/* Search icon (for mobile) */}
               <div className="md:hidden relative">
                 <button
                   onClick={toggleSearch}
-                  className="p-2 rounded-full hover:bg-gray-100 transition-colors"
+                  className="p-1.5 rounded-full hover:bg-gray-100 transition-colors"
                   aria-label="Search"
                 >
                   <Search className="h-5 w-5 text-black" />
                 </button>
                 {isSearchOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-72 bg-white p-2 rounded-lg shadow-lg border border-gray-200 z-50">
+                  <div className="absolute right-0 top-full mt-2 w-72 max-w-[calc(100vw-32px)] bg-white p-2 rounded-lg shadow-xl border border-gray-200 z-50">
                     <form onSubmit={handleSearch} className="relative">
                       <input
                         type="text"
@@ -166,13 +166,8 @@ const Index: React.FC = () => {
                 )}
               </div>
 
-              {/* Location Selector (Mobile only) */}
-              <div className="sm:hidden">
-                <LocationSelector />
-              </div>
-
               {/* Sell an item button */}
-              <Link to="/sell">
+              <Link to="/sell" className="hidden sm:inline-flex">
                 <Button className="bg-black text-white hover:bg-gray-800 rounded-md px-3.5 sm:px-4 py-2 text-xs sm:text-sm font-medium transition whitespace-nowrap">
                   Sell an item
                 </Button>
@@ -187,21 +182,21 @@ const Index: React.FC = () => {
               <Link to="/favorites" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Favorites">
                 <Heart className="h-5 w-5 text-black cursor-pointer" />
                 {favoritesCount > 0 && (
-                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
+                  <Badge className="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center p-0 text-[10px]">
                     {favoritesCount}
                   </Badge>
                 )}
               </Link>
 
               {/* Profile */}
-              <Link to="/profile" className="p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Profile">
+              <Link to="/profile" className="p-1.5 rounded-full hover:bg-gray-100 transition-colors hidden sm:inline-flex" aria-label="Profile">
                 <User className="h-5 w-5 text-black cursor-pointer" />
               </Link>
 
               {/* Cart */}
               <Link to="/cart" className="relative p-1.5 rounded-full hover:bg-gray-100 transition-colors" aria-label="Cart">
                 <ShoppingCart className="h-5 w-5 text-black cursor-pointer" />
-                <Badge className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center p-0">
+                <Badge className="absolute -top-1 -right-1 bg-black text-white text-xs rounded-full w-4 h-4 sm:w-5 sm:h-5 flex items-center justify-center p-0 text-[10px]">
                   0
                 </Badge>
               </Link>
@@ -273,111 +268,102 @@ const Index: React.FC = () => {
 
         {/* Mobile Menu Dialog */}
         <Dialog open={showMobileMenu} onOpenChange={setShowMobileMenu}>
-          <DialogContent className="p-0 max-w-xs w-full h-screen rounded-none fixed top-0 left-0">
-            <div className="flex flex-col h-full">
-              {/* Header */}
-              <div className="flex items-center justify-between px-4 py-3 border-b">
-                <img src="/images/l.webp" alt="Gratio Collective" className="h-8 w-auto object-contain" />
-                <button onClick={() => setShowMobileMenu(false)} aria-label="Close menu">
-                  <X className="h-6 w-6 text-black" />
-                </button>
-              </div>
-              {/* Search */}
-              <form onSubmit={handleSearch} className="flex items-center px-4 py-2 border-b">
+          <DialogContent className="p-0 max-w-xs sm:max-w-sm w-full h-[100dvh] rounded-none fixed top-0 left-0 bg-white shadow-2xl z-50 flex flex-col">
+            {/* Header */}
+            <div className="flex items-center justify-between px-5 py-4 border-b border-gray-100">
+              <img src="/images/l.webp" alt="Gratio Collective" className="h-8 w-auto object-contain" />
+              <button onClick={() => setShowMobileMenu(false)} className="p-1.5 rounded-full hover:bg-gray-100 text-gray-700" aria-label="Close menu">
+                <X className="h-5 w-5 text-black" />
+              </button>
+            </div>
+
+            <div className="flex-1 overflow-y-auto px-5 py-4 space-y-5">
+              {/* Search in Drawer */}
+              <form onSubmit={handleSearch} className="relative w-full">
                 <input
                   type="text"
-                  placeholder="Search..."
+                  placeholder="Search brands, bags, vintage..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
-                  className="flex-1 pl-3 pr-8 py-2 bg-gray-50 border-0 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-black"
+                  className="w-full pl-4 pr-10 py-2.5 bg-gray-50 border border-gray-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-black"
                 />
-                <button type="submit" className="absolute right-7">
-                  <Search className="h-4 w-4 text-gray-400" />
+                <button type="submit" className="absolute right-3.5 top-1/2 -translate-y-1/2 text-gray-400">
+                  <Search className="h-4 w-4" />
                 </button>
               </form>
+
+              {/* Delivery Location in Drawer */}
+              <div className="bg-gray-50 p-3.5 rounded-xl border border-gray-100">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">Delivery Location</span>
+                <LocationSelector />
+              </div>
+
+              {/* Sell an item prominent CTA */}
+              <Link to="/sell" onClick={() => setShowMobileMenu(false)} className="block">
+                <Button className="w-full bg-black text-white hover:bg-neutral-800 h-11 rounded-xl text-sm font-semibold shadow-sm">
+                  + Sell an Item with Gratio
+                </Button>
+              </Link>
+
               {/* Navigation Links */}
-              <div className="flex flex-col gap-2 px-4 py-4">
-                {navLinks.map((link, i) =>
-                  link.to.startsWith("/") ? (
-                    <Link
-                      key={i}
-                      to={link.to}
-                      className={`text-base font-medium text-black py-2 ${link.className || ""}`}
-                      onClick={() => setShowMobileMenu(false)}
-                    >
-                      {link.label}
-                    </Link>
-                  ) : (
-                    <a
-                      key={i}
-                      href={link.to}
-                      className={`text-base font-medium text-black py-2 ${link.className || ""}`}
-                      onClick={() => setShowMobileMenu(false)}
-                    >
-                      {link.label}
-                    </a>
-                  )
-                )}
-              </div>
-              {/* Actions */}
-              <div className="flex items-center gap-4 px-4 py-2 border-t mt-auto">
-                <Link to="/sell" onClick={() => setShowMobileMenu(false)}>
-                  <Button className="bg-black text-white hover:bg-gray-800 rounded-none px-4 py-2 text-sm">
-                    Sell
-                  </Button>
-                </Link>
-                <Link to="/signin" className="text-sm font-medium text-black hover:text-gray-600" onClick={() => setShowMobileMenu(false)}>
-                  <User className="inline h-5 w-5 mr-1" /> Sign in
-                </Link>
-                <Link to="/favorites" className="relative" onClick={() => setShowMobileMenu(false)}>
-                  <Heart className="h-5 w-5 text-black" />
-                  {Number(localStorage.getItem("favoritesCount") || 0) > 0 && (
-                    <Badge className="absolute -top-2 -right-2 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      {localStorage.getItem("favoritesCount")}
-                    </Badge>
-                  )}
-                </Link>
-                <Link to="/profile" onClick={() => setShowMobileMenu(false)}>
-                  <User className="h-5 w-5 text-black" />
-                </Link>
-                <Link to="/cart" onClick={() => setShowMobileMenu(false)}>
-                  <div className="relative">
-                    <ShoppingCart className="h-5 w-5 text-black" />
-                    <Badge className="absolute -top-2 -right-2 bg-black text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-                      0
-                    </Badge>
-                  </div>
-                </Link>
-              </div>
-              {/* Browse Categories */}
-              <div className="px-4 py-3 border-t">
-                <button
-                  onClick={() => setShowCategories(!showCategories)}
-                  className="flex items-center gap-2 bg-black text-white px-4 py-2 rounded-md font-semibold shadow hover:bg-gray-800 transition w-full"
-                >
-                  <List className="h-5 w-5" />
-                  Browse All Categories
-                  {showCategories ? (
-                    <ChevronUp className="h-4 w-4" />
-                  ) : (
-                    <ChevronDown className="h-4 w-4" />
-                  )}
-                </button>
-                {showCategories && (
-                  <div className="mt-2 w-full bg-white border border-gray-200 rounded-md shadow-lg grid grid-cols-2 gap-2 p-4">
-                    {categories.map((category, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between px-3 py-2 rounded hover:bg-gray-100 cursor-pointer text-sm font-medium text-gray-700"
+              <div>
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">Collections</span>
+                <div className="grid grid-cols-1 gap-1">
+                  {navLinks.map((link, i) =>
+                    link.to.startsWith("/") ? (
+                      <Link
+                        key={i}
+                        to={link.to}
+                        className={`text-sm font-medium text-gray-800 hover:text-black hover:bg-gray-50 px-3 py-2.5 rounded-lg transition-colors flex items-center justify-between ${link.className || ""}`}
+                        onClick={() => setShowMobileMenu(false)}
                       >
-                        <span>{category}</span>
-                        <span className="bg-black text-white text-xs font-bold px-2 py-0.5 rounded-full">
-                          {Math.floor(Math.random() * 10) + 1}
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                        <span>{link.label}</span>
+                        <ChevronRight className="h-4 w-4 text-gray-400" />
+                      </Link>
+                    ) : (
+                      <a
+                        key={i}
+                        href={link.to}
+                        className={`text-sm font-medium text-gray-800 hover:text-black hover:bg-gray-50 px-3 py-2.5 rounded-lg transition-colors flex items-center justify-between ${link.className || ""}`}
+                        onClick={() => setShowMobileMenu(false)}
+                      >
+                        <span>{link.label}</span>
+                        <ChevronRight className="h-4 w-4 text-gray-400" />
+                      </a>
+                    )
+                  )}
+                </div>
+              </div>
+
+              {/* Account Links */}
+              <div className="pt-3 border-t border-gray-100">
+                <span className="text-xs font-bold text-gray-400 uppercase tracking-wider block mb-2">Account</span>
+                <div className="grid grid-cols-2 gap-2">
+                  <Link
+                    to="/profile"
+                    onClick={() => setShowMobileMenu(false)}
+                    className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                  >
+                    <User className="h-4 w-4 text-gray-600" />
+                    <span>My Profile</span>
+                  </Link>
+                  <Link
+                    to="/favorites"
+                    onClick={() => setShowMobileMenu(false)}
+                    className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50"
+                  >
+                    <Heart className="h-4 w-4 text-red-500" />
+                    <span>Favorites</span>
+                  </Link>
+                  <Link
+                    to="/signin"
+                    onClick={() => setShowMobileMenu(false)}
+                    className="flex items-center gap-2 p-2.5 rounded-xl border border-gray-200 text-xs font-medium text-gray-800 hover:bg-gray-50 col-span-2"
+                  >
+                    <User className="h-4 w-4 text-gray-600" />
+                    <span>Sign In / Register</span>
+                  </Link>
+                </div>
               </div>
             </div>
           </DialogContent>

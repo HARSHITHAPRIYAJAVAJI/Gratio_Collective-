@@ -149,7 +149,7 @@ const Electronics: React.FC = () => {
             </div>
 
             {/* Products Grid */}
-            <div className={viewMode === 'grid' ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6' : 'space-y-4'}>
+            <div className={viewMode === 'grid' ? 'grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6' : 'space-y-4'}>
               {filteredProducts.map((product) => (
                 <Link key={product.id} to={`/product/${product.id}`} className="group">
                   <div className={`bg-card rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow ${viewMode === 'list' ? 'flex' : ''}`}>
