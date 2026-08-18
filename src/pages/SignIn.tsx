@@ -86,7 +86,7 @@ const SignIn: React.FC = () => {
               ? 'Access admin dashboard' 
               : selectedRole === 'seller' 
               ? 'Access your seller account' 
-              : 'Welcome back to Graito Collective'
+              : 'Welcome back to Gratio Collective'
             }
           </p>
         </div>

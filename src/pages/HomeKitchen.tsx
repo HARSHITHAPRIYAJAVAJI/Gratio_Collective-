@@ -79,7 +79,13 @@ const HomeKitchen: React.FC = () => {
               </div>
             </div>
             <div className="flex items-center">
-              <Link to="/" className="text-lg sm:text-2xl font-playfair font-bold text-foreground">Graito Collective</Link>
+              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+                <img 
+                  src="/images/l.png" 
+                  alt="Gratio Collective" 
+                  className="h-10 sm:h-12 w-auto object-contain" 
+                />
+              </Link>
             </div>
             <div className="flex items-center space-x-2 sm:space-x-4">
               <Link to="/sell" className="hidden sm:block">

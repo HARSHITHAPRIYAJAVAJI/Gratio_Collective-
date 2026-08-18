@@ -33,9 +33,13 @@ const AboutUs: React.FC = () => {
             </div>
 
             <div className="flex items-center">
-              <span className="text-lg sm:text-2xl font-playfair font-bold text-black">
-                Graito Collective
-              </span>
+              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+                <img 
+                  src="/images/l.png" 
+                  alt="Gratio Collective" 
+                  className="h-10 sm:h-12 w-auto object-contain" 
+                />
+              </Link>
             </div>
 
             <div className="flex items-center space-x-2 sm:space-x-4">
@@ -81,7 +85,7 @@ const AboutUs: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
         <div className="text-center mb-8 sm:mb-12">
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-playfair font-bold text-black mb-4">
-            About Graito Collective
+            About Gratio Collective
           </h1>
           <p className="text-lg sm:text-xl text-gray-600 max-w-3xl mx-auto">
             Your premier destination for luxury fashion and authentic designer pieces
@@ -98,12 +102,14 @@ const AboutUs: React.FC = () => {
           </div>
           <div className="flex flex-col justify-center">
             <h2 className="text-2xl sm:text-3xl font-playfair font-bold text-black mb-4">Our Story</h2>
-            <p className="text-gray-600 mb-4">
-              Founded with a passion for authentic luxury fashion, Graito Collective has been curating the finest designer pieces for discerning customers worldwide. We believe that luxury should be accessible, sustainable, and authentic.
-            </p>
-            <p className="text-gray-600">
-              Our team of experts carefully authenticates every piece, ensuring you receive only the highest quality items from the world's most prestigious fashion houses.
-            </p>
+            <div className="prose prose-lg mx-auto text-gray-600">
+              <p className="mb-6">
+                Founded with a passion for authentic luxury fashion, Gratio Collective has been curating the finest designer pieces for discerning customers worldwide. We believe that luxury should be accessible, sustainable, and authentic.
+              </p>
+              <p className="text-gray-600">
+                Our team of experts carefully authenticates every piece, ensuring you receive only the highest quality items from the world's most prestigious fashion houses.
+              </p>
+            </div>
           </div>
         </div>
 

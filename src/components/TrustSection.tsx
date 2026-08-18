@@ -47,7 +47,7 @@ const TrustSection: React.FC = () => {
           Trust & Security
         </h2>
         <p className="text-gray-600 mb-10 max-w-2xl mx-auto text-lg font-playfair">
-          Every transaction on Graito is protected by multiple layers of security and quality assurance. Shop confidently knowing your safety is our top priority.
+          Every transaction on Gratio is protected by multiple layers of security and quality assurance. Shop confidently knowing your safety is our top priority.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
           {features.map((feature) => (

@@ -14,7 +14,7 @@ const ChatAssistant: React.FC = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: "Hello! I'm your Graito Collective assistant. How can I help you today?",
+      text: "Hello! I'm your Gratio Collective assistant. How can I help you today?",
       sender: 'bot',
       timestamp: new Date()
     }
@@ -35,7 +35,7 @@ const ChatAssistant: React.FC = () => {
 
   // Predefined responses for the bot to simulate conversation
   const predefinedResponses: { [key: string]: string } = {
-    'hello': 'Hello! Welcome to Graito Collective. How can I assist you today?',
+    'hello': 'Hello! Welcome to Gratio Collective. How can I assist you today?',
     'help': 'I can help you with orders, returns, product information, account issues, and general inquiries. What do you need help with?',
     'order': 'For order-related questions, please provide your order number and I\'ll help you track your purchase or resolve any issues.',
     'return': 'Our return policy allows returns within 30 days of purchase. Items must be in original condition. Would you like me to start a return request?',
@@ -43,8 +43,8 @@ const ChatAssistant: React.FC = () => {
     'payment': 'We accept all major credit cards, PayPal, and Apple Pay. Your payment information is always secure with us.',
     'account': 'For account issues, I can help you with password resets, profile updates, or account deletion. What specifically do you need help with?',
     'size': 'For sizing information, please check our size guide on each product page. If you need personalized sizing advice, I can connect you with our styling team.',
-    'authentic': 'All items on Graito Collective are authenticated by our expert team. Each luxury item comes with a certificate of authenticity.',
-    'contact': 'You can reach our customer service team at support@graitocollective.com or call us at 1-800-GRAITO. We\'re available Monday-Friday 9AM-6PM EST.',
+    'authentic': 'All items on Gratio Collective are authenticated by our expert team. Each luxury item comes with a certificate of authenticity.',
+    'contact': 'You can reach our customer service team at support@gratiocollective.com or call us at 1-800-GRATIO. We\'re available Monday-Friday 9AM-6PM EST.',
     'default': 'I understand your question. For complex inquiries, I\'ll connect you with our customer service team who can provide more detailed assistance.'
   };
 
@@ -136,7 +136,7 @@ const ChatAssistant: React.FC = () => {
             <div className="flex items-center space-x-2">
               <Bot className="h-5 w-5" />
               <div>
-                <h3 className="font-medium">Graito Assistant</h3>
+                <h3 className="font-medium">Gratio Assistant</h3>
                 <p className="text-xs text-gray-300">Online now</p>
               </div>
             </div>

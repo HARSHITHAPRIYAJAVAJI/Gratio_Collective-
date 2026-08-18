@@ -279,7 +279,13 @@ const BagsFootwear: React.FC = () => {
 
             {/* Brand Logo/Name */}
             <div className="flex items-center">
-              <Link to="/" className="text-lg sm:text-2xl font-playfair font-bold text-foreground">Graito Collective</Link>
+              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+                <img 
+                  src="/images/l.png" 
+                  alt="Gratio Collective" 
+                  className="h-10 sm:h-12 w-auto object-contain" 
+                />
+              </Link>
             </div>
 
             {/* Right-aligned navigation icons/buttons */}

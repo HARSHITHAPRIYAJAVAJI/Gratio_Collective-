@@ -75,6 +75,8 @@ const Features: React.FC = () => {
                     <img 
                       src={category.image}
                       alt={category.title}
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-32 sm:h-40 lg:h-48 object-cover group-hover:scale-105 transition-transform duration-300"
                     />
                   </div>

@@ -25,9 +25,13 @@ const Profile: React.FC = () => {
             </div>
 
             <div className="flex items-center space-x-2">
-              <span className="text-2xl font-playfair font-bold text-black">
-                Graito Collective
-              </span>
+              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity">
+                <img 
+                  src="/images/l.png" 
+                  alt="Gratio Collective" 
+                  className="h-10 sm:h-12 w-auto object-contain" 
+                />
+              </Link>
             </div>
 
             <div className="flex items-center space-x-4">

@@ -50,11 +50,14 @@ const Index: React.FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Show welcome modal on first visit
-    const hasVisited = localStorage.getItem('hasVisitedGraito');
+    // Show welcome modal on first visit after initial paint
+    const hasVisited = localStorage.getItem('hasVisitedGratio');
     if (!hasVisited) {
-      setShowWelcomeModal(true);
-      localStorage.setItem('hasVisitedGraito', 'true');
+      const timer = setTimeout(() => {
+        setShowWelcomeModal(true);
+        localStorage.setItem('hasVisitedGratio', 'true');
+      }, 2500);
+      return () => clearTimeout(timer);
     }
   }, []);
 
@@ -105,8 +108,12 @@ const Index: React.FC = () => {
               </button>
 
               {/* Logo */}
-              <Link to="/" className="text-xl sm:text-2xl lg:text-3xl font-playfair font-bold text-black tracking-tight hover:opacity-90 transition-opacity whitespace-nowrap">
-                Graito Collective
+              <Link to="/" className="flex items-center hover:opacity-90 transition-opacity flex-shrink-0">
+                <img 
+                  src="/images/l.png" 
+                  alt="Gratio Collective" 
+                  className="h-10 sm:h-12 w-auto object-contain" 
+                />
               </Link>
 
               {/* Location Selector */}
@@ -270,7 +277,7 @@ const Index: React.FC = () => {
             <div className="flex flex-col h-full">
               {/* Header */}
               <div className="flex items-center justify-between px-4 py-3 border-b">
-                <span className="text-xl font-playfair font-bold text-black">Graito</span>
+                <img src="/images/l.png" alt="Gratio Collective" className="h-8 w-auto object-contain" />
                 <button onClick={() => setShowMobileMenu(false)} aria-label="Close menu">
                   <X className="h-6 w-6 text-black" />
                 </button>
